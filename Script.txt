@@ -1,5 +1,5 @@
 -- ==============================================
--- SENSI CHAKA • @unrandom_tk
+-- SENSI CHAKA V2 • @unrandom_tk
 -- ==============================================
 
 local Players = game:GetService("Players")
@@ -13,62 +13,49 @@ local LP = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 local MainConnection = nil
 
--- ==============================================
--- 🔧 TU SCREENGUI — EXACTAMENTE LA QUE FUNCIONA
--- ==============================================
 local parent
 pcall(function() parent = gethui() end)
-if not parent then
-	pcall(function() parent = CoreGui end)
-end
-if not parent then
-	parent = LP:WaitForChild("PlayerGui")
-end
+if not parent then pcall(function() parent = CoreGui end) end
+if not parent then parent = LP:WaitForChild("PlayerGui") end
 
 pcall(function()
 	for _, v in pairs(parent:GetChildren()) do
-		if v.Name == "SensiChaka" or v.Name == "SensiChakaIntro" then
-			v:Destroy()
-		end
+		if v.Name == "SensiChakaV2" or v.Name == "SensiChakaV2Intro" then v:Destroy() end
 	end
 end)
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "SensiChaka"
+gui.Name = "SensiChakaV2"
 gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.DisplayOrder = 999999
 gui.IgnoreGuiInset = true
 gui.Parent = parent
 
--- ==============================================
--- 🎬 ANIMACIÓN INTRO ESTILO NINJA AIM
--- ==============================================
 local function PlayIntro()
 	local intro = Instance.new("ScreenGui")
-	intro.Name = "SensiChakaIntro"
+	intro.Name = "SensiChakaV2Intro"
 	intro.ResetOnSpawn = false
 	intro.DisplayOrder = 9999999
 	intro.IgnoreGuiInset = true
 	intro.Parent = parent
-	
+
 	local bg = Instance.new("Frame")
 	bg.Size = UDim2.new(1, 0, 1, 0)
 	bg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	bg.BackgroundTransparency = 1
-	bg.BorderSizePixel = 0
 	bg.Parent = intro
-	
+
 	local container = Instance.new("Frame")
 	container.Size = UDim2.new(0, 600, 0, 200)
 	container.Position = UDim2.new(0.5, -300, 0.5, -100)
 	container.BackgroundTransparency = 1
 	container.Parent = intro
-	
+
 	local title = Instance.new("TextLabel")
 	title.Size = UDim2.new(1, 0, 0, 90)
 	title.BackgroundTransparency = 1
-	title.Text = "SENSI CHAKA"
+	title.Text = "SENSI CHAKA V2"
 	title.Font = Enum.Font.GothamBlack
 	title.TextSize = 72
 	title.TextColor3 = Color3.fromRGB(255, 140, 0)
@@ -78,20 +65,12 @@ local function PlayIntro()
 	title.AnchorPoint = Vector2.new(0.5, 0.5)
 	title.Position = UDim2.new(0.5, 0, 0, 45)
 	title.Parent = container
-	
-	local titleGlow = title:Clone()
-	titleGlow.TextColor3 = Color3.fromRGB(255, 200, 100)
-	titleGlow.TextStrokeTransparency = 1
-	titleGlow.TextTransparency = 1
-	titleGlow.Position = UDim2.new(0.5, 2, 0, 47)
-	titleGlow.ZIndex = title.ZIndex - 1
-	titleGlow.Parent = container
-	
+
 	local sub = Instance.new("TextLabel")
 	sub.Size = UDim2.new(1, 0, 0, 40)
 	sub.Position = UDim2.new(0, 0, 0, 95)
 	sub.BackgroundTransparency = 1
-	sub.Text = "TIKTOK @unrandom_tk"
+	sub.Text = "@unrandom_tk"
 	sub.Font = Enum.Font.GothamBold
 	sub.TextSize = 28
 	sub.TextColor3 = Color3.fromRGB(255, 220, 180)
@@ -99,79 +78,50 @@ local function PlayIntro()
 	sub.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 	sub.TextTransparency = 1
 	sub.Parent = container
-	
+
 	local line = Instance.new("Frame")
 	line.Size = UDim2.new(0, 0, 0, 3)
 	line.Position = UDim2.new(0.5, 0, 0, 145)
 	line.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
-	line.BorderSizePixel = 0
 	line.Parent = container
-	
-	local tweenInfoIn = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-	local tweenInfoOut = TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
-	local tweenInfoLine = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-	
+
+	local tweenIn = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local tweenOut = TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+	local tweenLine = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
 	task.wait(0.2)
-	TweenService:Create(bg, tweenInfoIn, {BackgroundTransparency = 0.7}):Play()
+	TweenService:Create(bg, tweenIn, {BackgroundTransparency = 0.7}):Play()
 	task.wait(0.15)
-	
-	TweenService:Create(title, tweenInfoIn, {TextTransparency = 0}):Play()
-	TweenService:Create(titleGlow, tweenInfoIn, {TextTransparency = 0.3}):Play()
-	title:TweenSize(UDim2.new(1.1, 0, 0, 100), Enum.EasingDirection.Out, Enum.EasingStyle.Back, 0.4, true)
-	task.wait(0.1)
-	title:TweenSize(UDim2.new(1, 0, 0, 90), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
-	
+	TweenService:Create(title, tweenIn, {TextTransparency = 0}):Play()
 	task.wait(0.25)
-	TweenService:Create(sub, tweenInfoIn, {TextTransparency = 0}):Play()
-	sub:TweenPosition(UDim2.new(0, 0, 0, 95), Enum.EasingDirection.Out, Enum.EasingStyle.Back, 0.35, true)
-	
+	TweenService:Create(sub, tweenIn, {TextTransparency = 0}):Play()
 	task.wait(0.2)
-	TweenService:Create(line, tweenInfoLine, {Size = UDim2.new(0.6, 0, 0, 3), Position = UDim2.new(0.2, 0, 0, 145)}):Play()
-	
+	TweenService:Create(line, tweenLine, {Size = UDim2.new(0.6, 0, 0, 3), Position = UDim2.new(0.2, 0, 0, 145)}):Play()
 	task.wait(2.5)
-	
-	TweenService:Create(title, tweenInfoOut, {TextTransparency = 1}):Play()
-	TweenService:Create(titleGlow, tweenInfoOut, {TextTransparency = 1}):Play()
-	TweenService:Create(sub, tweenInfoOut, {TextTransparency = 1}):Play()
-	TweenService:Create(line, tweenInfoOut, {Size = UDim2.new(0, 0, 0, 3), Position = UDim2.new(0.5, 0, 0, 145)}):Play()
-	TweenService:Create(bg, tweenInfoOut, {BackgroundTransparency = 1}):Play()
-	
+	TweenService:Create(title, tweenOut, {TextTransparency = 1}):Play()
+	TweenService:Create(sub, tweenOut, {TextTransparency = 1}):Play()
+	TweenService:Create(line, tweenOut, {Size = UDim2.new(0, 0, 0, 3)}):Play()
+	TweenService:Create(bg, tweenOut, {BackgroundTransparency = 1}):Play()
 	task.wait(0.7)
 	intro:Destroy()
 end
-
 task.spawn(PlayIntro)
 
--- ==============================================
--- ⚙️ CONFIG
--- ==============================================
 pcall(function()
-	StarterGui:SetCore("SendNotification", {
-		Title = "SENSI CHAKA",
-		Text = "TIKTOK @unrandom_tk creo este script",
-		Duration = 4
-	})
+	StarterGui:SetCore("SendNotification", {Title = "SENSI CHAKA V2", Text = "Cargado correctamente", Duration = 3})
 end)
 
 local S = {
-	ESP = false,
-	Box = true,
-	Name = true,
-	Dist = true,
-	Health = true,
-	Tracer = true,
-	ESPColor = Color3.fromRGB(255, 140, 0),
-	Aimbot = false,
-	Legit = false,
-	Rage = false,
-	AimKill = false,
-	FOV = 120,
-	ShowFOV = true,
-	WallCheck = true,
-	TeamCheck = true,
+	ESP = false, Box = true, Name = true, Dist = true, Health = true, Tracer = true,
+	ESPColor = Color3.fromRGB(255, 140, 0), Chams = false, Rainbow = false,
+	Aimbot = false, Legit = false, Rage = false, AimKill = false,
+	AimPart = "Head", FOV = 120, ShowFOV = true, WallCheck = true, TeamCheck = true
 }
 
-local ESPObjects = {}
+local AimPartsList = {"Head", "Torso", "Root"}
+local AimPartNames = {Head = "Cabeza", Torso = "Torso", Root = "Centro"}
+local aimIndex = 1
+local ESPObjects, ChamsObjects = {}, {}
 local FOVCircle = nil
 
 pcall(function()
@@ -186,69 +136,36 @@ pcall(function()
 	end
 end)
 
--- ==============================================
--- 📋 MENÚ COMPLETO (contenido dentro de tu ScreenGui)
--- ==============================================
 local Main = Instance.new("Frame")
 Main.Size = UDim2.new(0, 270, 0, 400)
 Main.Position = UDim2.new(0.5, -135, 0.5, -200)
 Main.BackgroundColor3 = Color3.fromRGB(25, 15, 8)
-Main.BorderSizePixel = 0
 Main.Active = true
 Main.Draggable = true
 Main.Parent = gui
-
-local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(0, 12)
-corner.Parent = Main
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
 local stroke = Instance.new("UIStroke")
 stroke.Color = Color3.fromRGB(255, 140, 0)
 stroke.Thickness = 2
 stroke.Parent = Main
 
--- Header
 local Header = Instance.new("Frame")
 Header.Size = UDim2.new(1, 0, 0, 50)
 Header.BackgroundColor3 = Color3.fromRGB(255, 120, 0)
-Header.BorderSizePixel = 0
-Header.ClipsDescendants = true
 Header.Parent = Main
-
-local headerCorner = Instance.new("UICorner")
-headerCorner.CornerRadius = UDim.new(0, 12)
-headerCorner.Parent = Header
-
-local headerMask = Instance.new("Frame")
-headerMask.Size = UDim2.new(1, 0, 0.5, 0)
-headerMask.Position = UDim2.new(0, 0, 0.5, 0)
-headerMask.BackgroundColor3 = Color3.fromRGB(255, 120, 0)
-headerMask.BorderSizePixel = 0
-headerMask.Parent = Header
+Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 12)
 
 local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -90, 0, 26)
-Title.Position = UDim2.new(0, 12, 0, 4)
+Title.Size = UDim2.new(1, -80, 0, 30)
+Title.Position = UDim2.new(0, 12, 0, 10)
 Title.BackgroundTransparency = 1
-Title.Text = "SENSI CHAKA"
+Title.Text = "SENSI CHAKA V2"
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 17
+Title.TextSize = 18
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.ZIndex = 2
 Title.Parent = Header
-
-local Credits = Instance.new("TextLabel")
-Credits.Size = UDim2.new(1, -90, 0, 16)
-Credits.Position = UDim2.new(0, 12, 0, 30)
-Credits.BackgroundTransparency = 1
-Credits.Text = "@unrandom_tk"
-Credits.Font = Enum.Font.Gotham
-Credits.TextSize = 12
-Credits.TextColor3 = Color3.fromRGB(255, 230, 200)
-Credits.TextXAlignment = Enum.TextXAlignment.Left
-Credits.ZIndex = 2
-Credits.Parent = Header
 
 local MinBtn = Instance.new("TextButton")
 MinBtn.Size = UDim2.new(0, 34, 0, 34)
@@ -258,7 +175,6 @@ MinBtn.Text = "-"
 MinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 MinBtn.Font = Enum.Font.GothamBold
 MinBtn.TextSize = 20
-MinBtn.ZIndex = 2
 MinBtn.Parent = Header
 Instance.new("UICorner", MinBtn).CornerRadius = UDim.new(0, 8)
 
@@ -270,22 +186,18 @@ CloseBtn.Text = "X"
 CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 CloseBtn.Font = Enum.Font.GothamBold
 CloseBtn.TextSize = 15
-CloseBtn.ZIndex = 2
 CloseBtn.Parent = Header
 Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 8)
 
--- Scroll
 local Scroll = Instance.new("ScrollingFrame")
 Scroll.Size = UDim2.new(1, -16, 1, -66)
 Scroll.Position = UDim2.new(0, 8, 0, 58)
 Scroll.BackgroundTransparency = 1
-Scroll.BorderSizePixel = 0
 Scroll.ScrollBarThickness = 4
 Scroll.ScrollBarImageColor3 = Color3.fromRGB(255, 140, 0)
-Scroll.CanvasSize = UDim2.new(0, 0, 0, 780)
+Scroll.CanvasSize = UDim2.new(0, 0, 0, 1040)
 Scroll.Parent = Main
 
--- Función botones
 local function MakeBtn(text, y, on)
 	local b = Instance.new("TextButton")
 	b.Size = UDim2.new(1, -8, 0, 38)
@@ -300,24 +212,34 @@ local function MakeBtn(text, y, on)
 	return b
 end
 
-local BESP    = MakeBtn("ESP Master", 8, false)
-local BBox    = MakeBtn("Caja 2D", 54, true)
-local BName   = MakeBtn("Nombres", 100, true)
-local BDist   = MakeBtn("Distancia", 146, true)
+local BESP = MakeBtn("ESP Master", 8, false)
+local BBox = MakeBtn("Caja 2D", 54, true)
+local BName = MakeBtn("Nombres", 100, true)
+local BDist = MakeBtn("Distancia", 146, true)
 local BHealth = MakeBtn("Vida", 192, true)
 local BTracer = MakeBtn("Líneas", 238, true)
+local BAim = MakeBtn("Aimbot", 300, false)
+local BLegit = MakeBtn("Aimbot Legit", 346, false)
+local BRage = MakeBtn("Aimbot Rage", 392, false)
+local BKill = MakeBtn("AimKill", 438, false)
+local BFOV = MakeBtn("Mostrar FOV", 484, true)
+local BWall = MakeBtn("WallCheck", 530, true)
+local BTeam = MakeBtn("TeamCheck", 576, true)
 
-local BAim    = MakeBtn("Aimbot", 300, false)
-local BLegit  = MakeBtn("Aimbot Legit", 346, false)
-local BRage   = MakeBtn("Aimbot Rage", 392, false)
-local BKill   = MakeBtn("AimKill", 438, false)
-local BFOV    = MakeBtn("Mostrar FOV", 484, true)
-local BWall   = MakeBtn("WallCheck", 530, true)
-local BTeam   = MakeBtn("TeamCheck", 576, true)
+local BAimPart = Instance.new("TextButton")
+BAimPart.Size = UDim2.new(1, -8, 0, 38)
+BAimPart.Position = UDim2.new(0, 4, 0, 622)
+BAimPart.BackgroundColor3 = Color3.fromRGB(80, 40, 120)
+BAimPart.Text = "Apunta a: Cabeza"
+BAimPart.Font = Enum.Font.GothamBold
+BAimPart.TextSize = 14
+BAimPart.TextColor3 = Color3.fromRGB(255, 255, 255)
+BAimPart.Parent = Scroll
+Instance.new("UICorner", BAimPart).CornerRadius = UDim.new(0, 8)
 
 local FOVLbl = Instance.new("TextLabel")
 FOVLbl.Size = UDim2.new(1, -8, 0, 22)
-FOVLbl.Position = UDim2.new(0, 4, 0, 640)
+FOVLbl.Position = UDim2.new(0, 4, 0, 670)
 FOVLbl.BackgroundTransparency = 1
 FOVLbl.Text = "FOV: 120"
 FOVLbl.Font = Enum.Font.GothamBold
@@ -327,7 +249,7 @@ FOVLbl.Parent = Scroll
 
 local FOVDn = Instance.new("TextButton")
 FOVDn.Size = UDim2.new(0, 70, 0, 34)
-FOVDn.Position = UDim2.new(0, 4, 0, 670)
+FOVDn.Position = UDim2.new(0, 4, 0, 700)
 FOVDn.BackgroundColor3 = Color3.fromRGB(50, 30, 15)
 FOVDn.Text = "-"
 FOVDn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -338,7 +260,7 @@ Instance.new("UICorner", FOVDn).CornerRadius = UDim.new(0, 8)
 
 local FOVUp = Instance.new("TextButton")
 FOVUp.Size = UDim2.new(0, 70, 0, 34)
-FOVUp.Position = UDim2.new(1, -78, 0, 670)
+FOVUp.Position = UDim2.new(1, -78, 0, 700)
 FOVUp.BackgroundColor3 = Color3.fromRGB(50, 30, 15)
 FOVUp.Text = "+"
 FOVUp.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -347,133 +269,116 @@ FOVUp.TextSize = 20
 FOVUp.Parent = Scroll
 Instance.new("UICorner", FOVUp).CornerRadius = UDim.new(0, 8)
 
--- Toggle
+local BChams = MakeBtn("Chams", 750, false)
+local BRainbow = MakeBtn("Modo Arcoíris", 796, false)
+
+local ColorLbl = Instance.new("TextLabel")
+ColorLbl.Size = UDim2.new(1, -8, 0, 22)
+ColorLbl.Position = UDim2.new(0, 4, 0, 850)
+ColorLbl.BackgroundTransparency = 1
+ColorLbl.Text = "— COLORES —"
+ColorLbl.Font = Enum.Font.GothamBold
+ColorLbl.TextSize = 14
+ColorLbl.TextColor3 = Color3.fromRGB(255, 200, 120)
+ColorLbl.Parent = Scroll
+
+local function MakeColorBtn(text, y, x, color)
+	local b = Instance.new("TextButton")
+	b.Size = UDim2.new(0, 76, 0, 32)
+	b.Position = UDim2.new(0, x, 0, y)
+	b.BackgroundColor3 = color
+	b.Text = text
+	b.Font = Enum.Font.GothamBold
+	b.TextSize = 12
+	b.TextColor3 = Color3.fromRGB(255, 255, 255)
+	b.TextStrokeTransparency = 0.5
+	b.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+	b.Parent = Scroll
+	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 8)
+	return b
+end
+
+local CRojo = MakeColorBtn("Rojo", 882, 4, Color3.fromRGB(255, 40, 40))
+local CNaranja = MakeColorBtn("Naranja", 882, 88, Color3.fromRGB(255, 140, 0))
+local CAmarillo = MakeColorBtn("Amarillo", 882, 172, Color3.fromRGB(255, 220, 40))
+local CVerde = MakeColorBtn("Verde", 922, 4, Color3.fromRGB(40, 255, 90))
+local CCian = MakeColorBtn("Cian", 922, 88, Color3.fromRGB(40, 220, 255))
+local CAzul = MakeColorBtn("Azul", 922, 172, Color3.fromRGB(60, 110, 255))
+local CMorado = MakeColorBtn("Morado", 962, 4, Color3.fromRGB(180, 60, 255))
+local CRosa = MakeColorBtn("Rosa", 962, 88, Color3.fromRGB(255, 60, 200))
+local CBlanco = MakeColorBtn("Blanco", 962, 172, Color3.fromRGB(240, 240, 240))
+
 local function Set(btn, state, name)
 	btn.Text = name .. (state and "  • ON" or "  • OFF")
 	btn.BackgroundColor3 = state and Color3.fromRGB(255, 120, 0) or Color3.fromRGB(50, 30, 15)
 end
 
--- Conexiones botones
-BESP.MouseButton1Click:Connect(function()
-	S.ESP = not S.ESP
-	Set(BESP, S.ESP, "ESP Master")
-end)
-BBox.MouseButton1Click:Connect(function()
-	S.Box = not S.Box
-	Set(BBox, S.Box, "Caja 2D")
-end)
-BName.MouseButton1Click:Connect(function()
-	S.Name = not S.Name
-	Set(BName, S.Name, "Nombres")
-end)
-BDist.MouseButton1Click:Connect(function()
-	S.Dist = not S.Dist
-	Set(BDist, S.Dist, "Distancia")
-end)
-BHealth.MouseButton1Click:Connect(function()
-	S.Health = not S.Health
-	Set(BHealth, S.Health, "Vida")
-end)
-BTracer.MouseButton1Click:Connect(function()
-	S.Tracer = not S.Tracer
-	Set(BTracer, S.Tracer, "Líneas")
+local function ApplyColor(c)
+	S.ESPColor = c
+	S.Rainbow = false
+	Set(BRainbow, false, "Modo Arcoíris")
+end
+
+BESP.MouseButton1Click:Connect(function() S.ESP = not S.ESP; Set(BESP, S.ESP, "ESP Master") end)
+BBox.MouseButton1Click:Connect(function() S.Box = not S.Box; Set(BBox, S.Box, "Caja 2D") end)
+BName.MouseButton1Click:Connect(function() S.Name = not S.Name; Set(BName, S.Name, "Nombres") end)
+BDist.MouseButton1Click:Connect(function() S.Dist = not S.Dist; Set(BDist, S.Dist, "Distancia") end)
+BHealth.MouseButton1Click:Connect(function() S.Health = not S.Health; Set(BHealth, S.Health, "Vida") end)
+BTracer.MouseButton1Click:Connect(function() S.Tracer = not S.Tracer; Set(BTracer, S.Tracer, "Líneas") end)
+BAim.MouseButton1Click:Connect(function() S.Aimbot = not S.Aimbot; Set(BAim, S.Aimbot, "Aimbot") end)
+BLegit.MouseButton1Click:Connect(function() S.Legit = not S.Legit; Set(BLegit, S.Legit, "Aimbot Legit") end)
+BRage.MouseButton1Click:Connect(function() S.Rage = not S.Rage; Set(BRage, S.Rage, "Aimbot Rage") end)
+BKill.MouseButton1Click:Connect(function() S.AimKill = not S.AimKill; Set(BKill, S.AimKill, "AimKill") end)
+BFOV.MouseButton1Click:Connect(function() S.ShowFOV = not S.ShowFOV; Set(BFOV, S.ShowFOV, "Mostrar FOV") end)
+BWall.MouseButton1Click:Connect(function() S.WallCheck = not S.WallCheck; Set(BWall, S.WallCheck, "WallCheck") end)
+BTeam.MouseButton1Click:Connect(function() S.TeamCheck = not S.TeamCheck; Set(BTeam, S.TeamCheck, "TeamCheck") end)
+
+BAimPart.MouseButton1Click:Connect(function()
+	aimIndex = aimIndex % #AimPartsList + 1
+	S.AimPart = AimPartsList[aimIndex]
+	BAimPart.Text = "Apunta a: " .. AimPartNames[S.AimPart]
 end)
 
-BAim.MouseButton1Click:Connect(function()
-	S.Aimbot = not S.Aimbot
-	Set(BAim, S.Aimbot, "Aimbot")
-end)
-BLegit.MouseButton1Click:Connect(function()
-	S.Legit = not S.Legit
-	Set(BLegit, S.Legit, "Aimbot Legit")
-end)
-BRage.MouseButton1Click:Connect(function()
-	S.Rage = not S.Rage
-	Set(BRage, S.Rage, "Aimbot Rage")
-end)
-BKill.MouseButton1Click:Connect(function()
-	S.AimKill = not S.AimKill
-	Set(BKill, S.AimKill, "AimKill")
-end)
-BFOV.MouseButton1Click:Connect(function()
-	S.ShowFOV = not S.ShowFOV
-	Set(BFOV, S.ShowFOV, "Mostrar FOV")
-end)
-BWall.MouseButton1Click:Connect(function()
-	S.WallCheck = not S.WallCheck
-	Set(BWall, S.WallCheck, "WallCheck")
-end)
-BTeam.MouseButton1Click:Connect(function()
-	S.TeamCheck = not S.TeamCheck
-	Set(BTeam, S.TeamCheck, "TeamCheck")
+BChams.MouseButton1Click:Connect(function()
+	S.Chams = not S.Chams
+	Set(BChams, S.Chams, "Chams")
+	if not S.Chams then for _, hl in pairs(ChamsObjects) do pcall(function() hl:Destroy() end) end end
 end)
 
-FOVDn.MouseButton1Click:Connect(function()
-	S.FOV = math.max(30, S.FOV - 10)
-	FOVLbl.Text = "FOV: " .. S.FOV
-end)
-FOVUp.MouseButton1Click:Connect(function()
-	S.FOV = math.min(400, S.FOV + 10)
-	FOVLbl.Text = "FOV: " .. S.FOV
-end)
+BRainbow.MouseButton1Click:Connect(function() S.Rainbow = not S.Rainbow; Set(BRainbow, S.Rainbow, "Modo Arcoíris") end)
 
--- Minimizar
+CRojo.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(255, 40, 40)) end)
+CNaranja.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(255, 140, 0)) end)
+CAmarillo.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(255, 220, 40)) end)
+CVerde.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(40, 255, 90)) end)
+CCian.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(40, 220, 255)) end)
+CAzul.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(60, 110, 255)) end)
+CMorado.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(180, 60, 255)) end)
+CRosa.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(255, 60, 200)) end)
+CBlanco.MouseButton1Click:Connect(function() ApplyColor(Color3.fromRGB(240, 240, 240)) end)
+
+FOVDn.MouseButton1Click:Connect(function() S.FOV = math.max(30, S.FOV - 10); FOVLbl.Text = "FOV: " .. S.FOV end)
+FOVUp.MouseButton1Click:Connect(function() S.FOV = math.min(400, S.FOV + 10); FOVLbl.Text = "FOV: " .. S.FOV end)
+
 local minimized = false
 MinBtn.MouseButton1Click:Connect(function()
 	minimized = not minimized
-	if minimized then
-		Main.Size = UDim2.new(0, 270, 0, 50)
-		Scroll.Visible = false
-		MinBtn.Text = "+"
-	else
-		Main.Size = UDim2.new(0, 270, 0, 400)
-		Scroll.Visible = true
-		MinBtn.Text = "-"
-	end
+	Main.Size = minimized and UDim2.new(0, 270, 0, 50) or UDim2.new(0, 270, 0, 400)
+	Scroll.Visible = not minimized
+	MinBtn.Text = minimized and "+" or "-"
 end)
 
--- Limpieza
 local function Cleanup()
-	S.ESP = false
-	S.Aimbot = false
-	S.Rage = false
-	S.Legit = false
-	S.AimKill = false
-	
-	if MainConnection then
-		MainConnection:Disconnect()
-		MainConnection = nil
-	end
-	
-	pcall(function()
-		if FOVCircle then
-			FOVCircle.Visible = false
-			FOVCircle:Remove()
-			FOVCircle = nil
-		end
-	end)
-	
-	for plr, objs in pairs(ESPObjects) do
-		for _, o in pairs(objs) do
-			pcall(function()
-				o.Visible = false
-				o:Remove()
-			end)
-		end
-		ESPObjects[plr] = nil
-	end
+	S.ESP, S.Aimbot, S.Rage, S.Legit, S.AimKill, S.Chams, S.Rainbow = false, false, false, false, false, false, false
+	if MainConnection then MainConnection:Disconnect(); MainConnection = nil end
+	pcall(function() if FOVCircle then FOVCircle.Visible = false; FOVCircle:Remove(); FOVCircle = nil end end)
+	for _, objs in pairs(ESPObjects) do for _, o in pairs(objs) do pcall(function() o.Visible = false; o:Remove() end) end end
+	for _, hl in pairs(ChamsObjects) do pcall(function() hl:Destroy() end) end
+	table.clear(ESPObjects); table.clear(ChamsObjects)
 end
 
-CloseBtn.MouseButton1Click:Connect(function()
-	Cleanup()
-	gui:Destroy()
-end)
+CloseBtn.MouseButton1Click:Connect(function() Cleanup(); gui:Destroy() end)
 
-print("✅ ScreenGui SENSI CHAKA abierta")
-
--- ==============================================
--- 🎯 LÓGICA ESP + AIMBOT
--- ==============================================
 local function IsEnemy(plr)
 	if not S.TeamCheck then return true end
 	if not LP.Team or not plr.Team then return true end
@@ -482,17 +387,21 @@ end
 
 local function IsVisible(part)
 	if not S.WallCheck then return true end
-	local success, result = pcall(function()
-		local origin = Camera.CFrame.Position
-		local direction = (part.Position - origin).Unit * (part.Position - origin).Magnitude
-		local raycastParams = RaycastParams.new()
-		raycastParams.FilterDescendantsInstances = {LP.Character, part.Parent}
-		raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-		raycastParams.IgnoreWater = true
-		local hit = Workspace:Raycast(origin, direction, raycastParams)
-		return hit == nil
-	end)
-	return success and result
+	local origin = Camera.CFrame.Position
+	local rayParams = RaycastParams.new()
+	rayParams.FilterDescendantsInstances = {LP.Character, part.Parent}
+	rayParams.FilterType = Enum.RaycastFilterType.Exclude
+	return Workspace:Raycast(origin, part.Position - origin, rayParams) == nil
+end
+
+local function GetTargetPart(char)
+	if S.AimPart == "Torso" then
+		return char:FindFirstChild("UpperTorso") or char:FindFirstChild("Torso") or char:FindFirstChild("HumanoidRootPart")
+	elseif S.AimPart == "Root" then
+		return char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso") or char:FindFirstChild("Head")
+	else
+		return char:FindFirstChild("Head") or char:FindFirstChild("HumanoidRootPart")
+	end
 end
 
 local function GetClosest()
@@ -501,14 +410,14 @@ local function GetClosest()
 	for _, plr in pairs(Players:GetPlayers()) do
 		if plr ~= LP and plr.Character and IsEnemy(plr) then
 			local hum = plr.Character:FindFirstChildOfClass("Humanoid")
-			local head = plr.Character:FindFirstChild("Head")
-			if hum and hum.Health > 0 and head then
-				local pos, onScreen = Camera:WorldToViewportPoint(head.Position)
-				if onScreen then
-					local dist = (Vector2.new(pos.X, pos.Y) - center).Magnitude
-					if dist < best and IsVisible(head) then
-						best = dist
-						closest = head
+			if hum and hum.Health > 0 then
+				local part = GetTargetPart(plr.Character)
+				local head = plr.Character:FindFirstChild("Head") or part
+				if part then
+					local pos, onScreen = Camera:WorldToViewportPoint(part.Position)
+					if onScreen then
+						local dist = (Vector2.new(pos.X, pos.Y) - center).Magnitude
+						if dist < best and IsVisible(head) then best = dist; closest = part end
 					end
 				end
 			end
@@ -518,58 +427,46 @@ local function GetClosest()
 end
 
 local function ClearESP(plr)
-	if ESPObjects[plr] then
-		for _, o in pairs(ESPObjects[plr]) do
-			pcall(function()
-				o.Visible = false
-				o:Remove()
-			end)
-		end
-		ESPObjects[plr] = nil
-	end
+	if ESPObjects[plr] then for _, o in pairs(ESPObjects[plr]) do pcall(function() o:Remove() end) end end
+	if ChamsObjects[plr] then pcall(function() ChamsObjects[plr]:Destroy() end) end
+	ESPObjects[plr] = nil; ChamsObjects[plr] = nil
+end
+
+local function UpdateChams(plr, char, color)
+	if not S.Chams then if ChamsObjects[plr] then pcall(function() ChamsObjects[plr]:Destroy() end) end return end
+	local hl = ChamsObjects[plr] or Instance.new("Highlight")
+	hl.Name = "SensiChamsV2"
+	hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+	hl.FillTransparency = 0.45
+	hl.OutlineTransparency = 0.1
+	hl.Adornee = char
+	hl.Parent = char
+	hl.FillColor = color
+	hl.OutlineColor = color
+	hl.Enabled = true
+	ChamsObjects[plr] = hl
 end
 
 local function CreateESP(plr)
-	if ESPObjects[plr] then return end
-	local success, objs = pcall(function()
-		if not Drawing then return nil end
-		local t = {}
-		t.box = Drawing.new("Square")
-		t.box.Thickness = 1.5
-		t.box.Filled = false
-		t.box.Visible = false
-		t.tracer = Drawing.new("Line")
-		t.tracer.Thickness = 1.2
-		t.tracer.Visible = false
-		t.name = Drawing.new("Text")
-		t.name.Size = 14
-		t.name.Center = true
-		t.name.Outline = true
-		t.name.Visible = false
-		t.dist = Drawing.new("Text")
-		t.dist.Size = 13
-		t.dist.Center = true
-		t.dist.Outline = true
-		t.dist.Visible = false
-		t.hp = Drawing.new("Line")
-		t.hp.Thickness = 3
-		t.hp.Visible = false
-		return t
-	end)
-	if success and objs then
-		ESPObjects[plr] = objs
-	end
+	if ESPObjects[plr] or not Drawing then return end
+	local t = {}
+	t.box = Drawing.new("Square"); t.box.Thickness = 1.5; t.box.Visible = false
+	t.tracer = Drawing.new("Line"); t.tracer.Thickness = 1.2; t.tracer.Visible = false
+	t.name = Drawing.new("Text"); t.name.Size = 14; t.name.Center = true; t.name.Outline = true; t.name.Visible = false
+	t.dist = Drawing.new("Text"); t.dist.Size = 13; t.dist.Center = true; t.dist.Outline = true; t.dist.Visible = false
+	t.hp = Drawing.new("Line"); t.hp.Thickness = 3; t.hp.Visible = false
+	ESPObjects[plr] = t
 end
 
--- Loop principal
 MainConnection = RunService.RenderStepped:Connect(function()
 	Camera = Workspace.CurrentCamera
-	
+	local currentColor = S.Rainbow and Color3.fromHSV((tick() * 0.4) % 1, 1, 1) or S.ESPColor
+
 	pcall(function()
 		if FOVCircle then
 			FOVCircle.Position = Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y/2)
 			FOVCircle.Radius = S.FOV
-			FOVCircle.Color = S.ESPColor
+			FOVCircle.Color = currentColor
 			FOVCircle.Visible = S.ShowFOV and (S.Aimbot or S.Legit or S.Rage or S.AimKill)
 		end
 	end)
@@ -580,19 +477,25 @@ MainConnection = RunService.RenderStepped:Connect(function()
 			if S.Rage or S.AimKill then
 				Camera.CFrame = CFrame.new(Camera.CFrame.Position, target.Position)
 			else
-				local goal = CFrame.new(Camera.CFrame.Position, target.Position)
-				local speed = S.Legit and 0.12 or 0.22
-				Camera.CFrame = Camera.CFrame:Lerp(goal, speed)
+				Camera.CFrame = Camera.CFrame:Lerp(CFrame.new(Camera.CFrame.Position, target.Position), S.Legit and 0.12 or 0.22)
 			end
 		end
 	end
 
-	if not S.ESP then
-		for plr in pairs(ESPObjects) do
+	for _, plr in pairs(Players:GetPlayers()) do
+		if plr ~= LP and plr.Character and IsEnemy(plr) then
+			local hum = plr.Character:FindFirstChildOfClass("Humanoid")
+			if hum and hum.Health > 0 then
+				UpdateChams(plr, plr.Character, currentColor)
+			else
+				ClearESP(plr)
+			end
+		else
 			ClearESP(plr)
 		end
-		return
 	end
+
+	if not S.ESP then for plr in pairs(ESPObjects) do ClearESP(plr) end return end
 
 	for _, plr in pairs(Players:GetPlayers()) do
 		if plr ~= LP and plr.Character and IsEnemy(plr) then
@@ -609,35 +512,30 @@ MainConnection = RunService.RenderStepped:Connect(function()
 					if onScreen then
 						local h = math.abs(headPos.Y - footPos.Y)
 						local w = h * 0.55
-						local boxPos = Vector2.new(pos.X - w/2, pos.Y - h/2)
 						o.box.Size = Vector2.new(w, h)
-						o.box.Position = boxPos
-						o.box.Color = S.ESPColor
+						o.box.Position = Vector2.new(pos.X - w/2, pos.Y - h/2)
+						o.box.Color = currentColor
 						o.box.Visible = S.Box
 						o.tracer.From = Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y)
 						o.tracer.To = Vector2.new(pos.X, pos.Y)
-						o.tracer.Color = S.ESPColor
+						o.tracer.Color = currentColor
 						o.tracer.Visible = S.Tracer
 						o.name.Text = plr.Name
 						o.name.Position = Vector2.new(pos.X, headPos.Y - 16)
-						o.name.Color = S.ESPColor
+						o.name.Color = currentColor
 						o.name.Visible = S.Name
-						local d = math.floor((root.Position - Camera.CFrame.Position).Magnitude)
-						o.dist.Text = d .. "m"
+						o.dist.Text = math.floor((root.Position - Camera.CFrame.Position).Magnitude) .. "m"
 						o.dist.Position = Vector2.new(pos.X, footPos.Y + 2)
-						o.dist.Color = S.ESPColor
+						o.dist.Color = currentColor
 						o.dist.Visible = S.Dist
 						local pct = math.clamp(hum.Health / math.max(hum.MaxHealth, 1), 0, 1)
-						o.hp.From = Vector2.new(boxPos.X - 5, boxPos.Y + h)
-						o.hp.To = Vector2.new(boxPos.X - 5, boxPos.Y + h * (1 - pct))
+						o.hp.From = Vector2.new(pos.X - w/2 - 5, pos.Y + h/2)
+						o.hp.To = Vector2.new(pos.X - w/2 - 5, pos.Y + h/2 - h * pct)
 						o.hp.Color = Color3.fromRGB(255 * (1 - pct), 255 * pct, 40)
 						o.hp.Visible = S.Health
 					else
-						o.box.Visible = false
-						o.tracer.Visible = false
-						o.name.Visible = false
-						o.dist.Visible = false
-						o.hp.Visible = false
+						o.box.Visible = false; o.tracer.Visible = false; o.name.Visible = false
+						o.dist.Visible = false; o.hp.Visible = false
 					end
 				end
 			else
@@ -650,4 +548,4 @@ MainConnection = RunService.RenderStepped:Connect(function()
 end)
 
 Players.PlayerRemoving:Connect(ClearESP)
-print("✅ SENSI CHAKA listo")
+print("✅ SENSI CHAKA V2 cargado")
